@@ -1,0 +1,45 @@
+pragma solidity ^0.5.1;
+
+
+contract locationProfiler{
+    
+    mapping(string=>Person) people;
+    
+    //people is an array where I will map a location a Person
+    
+    struct Person{
+        string name;
+        uint256 age;
+        
+        
+     }
+    
+    
+    function addPerson(string memory name,uint256 age,string memory location) public {
+        
+        people[location]=Person(name,age);
+        
+    }
+    
+    function listPeople(string memory location) public view returns ( string memory name,uint256 age )  {
+        //unluckily solidity does not return struct so have to do this way.
+        Person memory p = people[location];
+        //return as a tuple
+	    return (p.name, p.age);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
