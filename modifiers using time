@@ -1,0 +1,69 @@
+//in this case we will use time to restrict execution
+//note that time in solidity is in seconds, so I have to use unix timestamp in most cases
+//to get current time, currentTime=block.timestamp
+//this case,I can only add person if the current unixtimestamp is greater than or equal to the stated value in the code
+
+
+pragma solidity ^0.5.1;
+
+
+contract locationProfiler{
+    uint256 public peopleCount=0;
+    
+    uint256 openingTime=1615549400;
+    mapping(string=>Person) people;
+    
+    modifier timeToAdd(){
+        require(block.timestamp>=openingTime);
+        _;
+        
+    }
+    
+    struct Person{
+        string name;
+        uint256 age;
+        
+        
+     }
+    
+    
+    
+    function addPerson(string memory name,uint256 age,string memory location) public timeToAdd {
+        
+        people[location]=Person(name,age);
+        incrementPeople();
+        
+    }
+    
+    function listPeople(string memory location) public view returns ( string memory name,uint256 age )   {
+        
+        Person memory p = people[location];
+        
+	    return (p.name, p.age);
+    }
+    
+    function getCount() public view returns(uint256){
+        
+        
+        return peopleCount;
+    }
+    
+    function incrementPeople() internal{
+        
+        peopleCount+=1;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
