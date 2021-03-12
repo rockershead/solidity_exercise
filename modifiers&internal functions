@@ -1,1 +1,75 @@
 
+//Modifiers allow us to have restrictions on functions. Eg. only the owner can call the function.Or a function happens at a certain time. 
+//Internal functions are functions that are not open to the public to execute.
+//Another impt thing is that msg.sender is an inbuilt function that indicates the account of the one who calls the function.
+//eg If msg.sender==owner in a constructor, then the one who deploys the contract becomes the owner
+
+
+
+pragma solidity ^0.5.1;
+
+
+contract locationProfiler{
+    uint256 public peopleCount=0;
+    address owner;
+    
+    mapping(string=>Person) people;
+    
+    modifier onlyOwner(){
+        
+        require(msg.sender==owner);
+        _;
+    }
+    
+    struct Person{
+        string name;
+        uint256 age;
+        
+        
+     }
+     constructor() public{
+         
+         owner=msg.sender;
+         
+     }
+    
+    
+    function addPerson(string memory name,uint256 age,string memory location) public onlyOwner {
+        
+        people[location]=Person(name,age);
+        incrementPeople();
+        
+    }
+    
+    function listPeople(string memory location) public view returns ( string memory name,uint256 age )   {
+        
+        Person memory p = people[location];
+        
+	    return (p.name, p.age);
+    }
+    
+    function getCount() public view returns(uint256){
+        
+        
+        return peopleCount;
+    }
+    
+    function incrementPeople() internal{
+        
+        peopleCount+=1;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
