@@ -1,0 +1,59 @@
+//payable is a modifier that allows functions to accept ether
+//dont take take this code fort real, just understand it as a pseudo code
+
+
+pragma solidity ^0.5.1;
+
+contract tokenSwap{
+    //this contract is a simple demo(not full code) on swapping a token with ether(1 TOK=1 ETHER)
+    
+    string public constant name = "Token";
+    string public constant symbol = "TOK";
+    uint8 public constant decimals=18;
+    address payable mainWallet;
+    
+    
+    mapping(address => uint256) public  balances;
+    
+    
+    event Purchase{
+        
+        address buyer,
+        uint256 amount
+        
+    }
+    
+    
+    //set the one who deploys the contract as the main wallet
+    constructor(address payable _wallet) public{
+        
+        mainWallet=_wallet;
+        
+    }
+    
+    function swapToken() public  payable{
+        //get the token
+        balances[msg.sender]+=1;
+        
+        //send ether to main wallet
+        //msg.value is the value we put into the right hand side.the amount of ether.
+        mainWallet.transfer(msg.value);
+        emit Purchase(msg.sender,1);
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
